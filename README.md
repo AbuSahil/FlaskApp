@@ -1,3 +1,0 @@
-# FlaskApp
-practice
-Abu Sahil
