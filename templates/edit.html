@@ -16,7 +16,7 @@
         {% endif %}
     {% endwith %}
     <h1>Edit User</h1>
-    <form method="POST" action="/">
+    <form method="POST" action="{{ url_for('edit', id=user.id) }}">
         {{ form.hidden_tag() }}
         <p>
             {{ form.name.label }}<br>

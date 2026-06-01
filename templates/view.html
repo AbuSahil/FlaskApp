@@ -6,6 +6,15 @@
     <title>View Users</title>  
 </head>
 <body>  
+     {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
     <h1>Registered Users</h1>
     <table border="1">
         <tr>
@@ -21,7 +30,7 @@
             <td>{{ user.email }}</td>
             <td>
                 <a href="/view/{{ user.id }}/edit">Edit</a>
-                ||<a href="#">Delete</a>
+                ||<button type="button" onclick="location.href='/view/{{ user.id }}/delete'">Delete</button>
             </td>
         </tr>
         {% endfor %}

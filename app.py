@@ -31,6 +31,13 @@ def edit(id):
         flash("User updated successfully")
         return redirect(url_for('view'))
     return render_template('edit.html', form=form, user=user)
+@app.route('/view/<int:id>/delete', methods=['POST','GET'])
+def delete(id):
+    user = User.query.get(id)
+    db.session.delete(user)
+    db.session.commit()
+    flash("User deleted successfully")
+    return redirect(url_for('view'))    
 
 @app.route('/', methods=['POST','GET'])
 def login():
