@@ -29,8 +29,12 @@
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
             <td>
-                <a href="/view/{{ user.id }}/edit">Edit</a>
-                ||<button type="button" onclick="location.href='/view/{{ user.id }}/delete'">Delete</button>
+                                
+                <button type="button" onclick="location.href='/view/{{ user.id }}/edit'">Edit</button>
+                <form method="POST" action="{{ url_for('delete', id=user.id) }}" style="display:inline;">
+                       
+                    <button type="submit" onclick="return confirm('আপুনি কি নিশ্চিত?')">Delete</button>
+                </form>
             </td>
         </tr>
         {% endfor %}

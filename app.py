@@ -28,7 +28,7 @@ def edit(id):
         user.name = form.name.data
         user.email = form.email.data
         db.session.commit()
-        flash("User updated successfully")
+        flash("আপোনাৰ তথ্য সফলভাবে সম্পাদনা কৰা হৈছে!")
         return redirect(url_for('view'))
     return render_template('edit.html', form=form, user=user)
 @app.route('/view/<int:id>/delete', methods=['POST','GET'])
@@ -36,7 +36,7 @@ def delete(id):
     user = User.query.get(id)
     db.session.delete(user)
     db.session.commit()
-    flash("User deleted successfully")
+    flash("আপোনাৰ তথ্য সফলভাবে মচা হৈছে!")
     return redirect(url_for('view'))    
 
 @app.route('/', methods=['POST','GET'])
@@ -46,7 +46,7 @@ def login():
         new_user = User(name=form.name.data, email=form.email.data)
         db.session.add(new_user)
         db.session.commit()
-        flash("form submitted successfully")
+        flash("আপনাৰ তথ্য সফলভাবে সংৰক্ষণ কৰা হৈছে!")
         return redirect(url_for('login'))
     else:
         return render_template('login.html' , form=form)
