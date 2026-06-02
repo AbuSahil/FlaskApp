@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create new blog post</title>
+    <title>Update Blog Post</title>
 </head>
 <body>
     {% with messages = get_flashed_messages() %}
@@ -15,12 +15,12 @@
             </ul>
         {% endif %}
     {% endwith %}
-    <h1>Create New Blog Post</h1>
-    <form method="POST" action="{{ url_for('create_blog') }}">
+    <h1>Update Blog Post</h1>
+    <form method="POST" action="{{ url_for('edit_blog', blog_id=blog.id) }}">
         <label for="title">Title:</label><br>
-        <input type="text" id="title" name="title" required><br><br>
+        <input type="text" id="title" name="title" value="{{ blog.title }}" required><br><br>
         <label for="content">Content:</label><br>
-        <textarea id="content" name="content" rows="10" cols="50" required></textarea><br><br>
+        <textarea id="content" name="content" rows="10" cols="50" required>{{ blog.content }}</textarea><br><br>
         <input type="submit" value="Submit">       
           
     </form>

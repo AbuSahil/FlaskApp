@@ -36,11 +36,7 @@ def edit(id):
     user = User.query.get(id)
     form = MyForm(obj=user)
     if form.validate_on_submit():
-        existing_user = User.query.filter_by(email=form.email.data).first()
-
-        if existing_user:
-            flash("এই ইমেইল ইতিমধ্যে ব্যৱহাৰ কৰা হৈছে!")
-            return render_template('edit.html', form=form, user=user)
+        user.id = form.id.data
         user.name = form.name.data
         user.email = form.email.data
         db.session.commit()
@@ -92,9 +88,21 @@ def create_blog():
         new_blog = Blog(title=title, content=content)
         db.session.add(new_blog)
         db.session.commit()
-        flash("Blog post created successfully!")
+        flash("বলগ সফলভাবে তৈয়াৰ কৰা হৈছে!")
         return redirect(url_for('blogs'))
     return render_template('Blogs/create.html')
+
+@app.route('/blogs/<int:blog_id>/edit', methods=['POST', 'GET'])
+def edit_blog(blog_id):  
+    blog = Blog.query.get(blog_id)
+    if request.method == 'POST':
+        blog.title = request.form['title']
+        blog.content = request.form['content']
+        
+        db.session.commit()
+        flash("বলগ সফলভাবে সম্পাদনা কৰা হৈছে!")
+        return redirect(url_for('blogs'))
+    return render_template('Blogs/editblog.html', blog=blog)    
 
 if __name__ == '__main__':
     with app.app_context():  
