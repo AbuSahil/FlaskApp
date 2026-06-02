@@ -1,6 +1,7 @@
 from flask import Flask , render_template,request, url_for, redirect , flash
 from form import MyForm
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecretkey'
@@ -8,13 +9,23 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 
 class User(db.Model):
-    __tablename__ = 'databases'
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     def __repr__(self):
         return f"User('{self.name}', '{self.email}')"
+
+class Blog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    def __repr__(self):
+        return f"Blog('{self.title}', '{self.date_posted}')"
     
+
+
 @app.route('/')
 def view():
     users = User.query.all()
@@ -67,7 +78,25 @@ def login():
     else:
         return render_template('login.html' , form=form)
 
+#blogs
+@app.route('/blogs')
+def blogs():
+    blogs = Blog.query.order_by(Blog.date_posted.desc()).all()
+    return render_template('Blogs/blogs.html', blogs=blogs)
 
+@app.route('/blogs/create', methods=['POST', 'GET'])
+def create_blog():
+    if request.method == 'POST':
+        title = request.form['title']
+        content = request.form['content']
+        new_blog = Blog(title=title, content=content)
+        db.session.add(new_blog)
+        db.session.commit()
+        flash("Blog post created successfully!")
+        return redirect(url_for('blogs'))
+    return render_template('Blogs/create.html')
 
 if __name__ == '__main__':
+    with app.app_context():  
+        db.create_all()
     app.run(debug=True)
