@@ -1,0 +1,11 @@
+<h1>Student Details</h1>
+
+    <p><strong>ID:</strong> {{ user.id }}</p>
+    <p><strong>Name of Student:</strong> {{ user.name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+
+    <button type="button" onclick="location.href='/{{ user.id }}/edit'">Edit</button>
+    <form method="POST" action="{{ url_for('delete', id=user.id) }}" style="display:inline;">
+        <button type="submit" onclick="return confirm('আপুনি কি নিশ্চিত?')">Delete</button>
+    </form>
+    <button type="button" onclick="location.href='/'">Back to List</button>

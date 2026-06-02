@@ -15,25 +15,25 @@
             </ul>
         {% endif %}
     {% endwith %}
-    <h1>Login Form</h1>
-    <form method="POST" action="/">
+    <h1>Add New User</h1>
+    <form method="POST" action="/login">
         {{ form.hidden_tag() }}
         <p>
             {{ form.name.label }}<br>
             {{ form.name(size=32) }}<br>
             {% for error in form.name.errors %}
-                <span style="color: red;">[{{ error }}]</span><br>
+                <span style="color: rgb(36, 161, 140);">[{{ error }}]</span><br>
             {% endfor %}
         </p>
         <p>
             {{ form.email.label }}<br>
             {{ form.email(size=32) }}<br>
             {% for error in form.email.errors %}
-                <span style="color: rgb(34, 20, 230);">[{{ error }}]</span><br>
+                <span style="color: rgb(167, 22, 22);">[{{ error }}]</span><br>
             {% endfor %}
         </p>
         <p>{{ form.submit() }}</p>
     </form>
-    
+    <a href="/">View Registered Users</a>
 </body>
 </html>
