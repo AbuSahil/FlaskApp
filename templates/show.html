@@ -3,6 +3,19 @@
     <p><strong>ID:</strong> {{ user.id }}</p>
     <p><strong>Name of Student:</strong> {{ user.name }}</p>
     <p><strong>Email:</strong> {{ user.email }}</p>
+    <h2>Blogs</h2>
+    {% if blogs %}
+        <ul>
+        {% for blog in blogs %}
+            <li><strong>Title:</strong> {{ blog.title }}<br>
+                <strong>Content:</strong> {{ blog.content }}<br>
+                <img src="{{ url_for('static', filename='images/' + blog.image_file) }}" alt="Blog Image" width="100"><br><br>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No blogs found for this user.</p>
+    {% endif %}
 
     <button type="button" onclick="location.href='/{{ user.id }}/edit'">Edit</button>
     <form method="POST" action="{{ url_for('delete', id=user.id) }}" style="display:inline;">

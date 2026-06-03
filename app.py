@@ -23,6 +23,7 @@ class User(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     profile = db.relationship('Profile', backref='user', uselist=False) 
+    blogs = db.relationship('Blog', backref='author', lazy=True)    
 
     def __repr__(self):
         return f"User('{self.name}', '{self.email}')"
@@ -72,7 +73,8 @@ def delete(id):
 @app.route('/<int:id>/show')
 def show(id):   
     user = User.query.get(id)
-    return render_template('show.html', user=user) 
+    blogs = user.blogs
+    return render_template('show.html', user=user, blogs=blogs) 
     
 @app.route('/login', methods=['POST','GET'])
 def login():
@@ -107,6 +109,7 @@ def create_blog():
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['content']
+        author_id = 1
         file = request.files['image_file']
         if file and allowed_file(file.filename):
             filename = file.filename
@@ -114,7 +117,7 @@ def create_blog():
         else:
             filename = 'default.jpg'    
             
-        new_blog = Blog(title=title, content=content, image_file=filename)
+        new_blog = Blog(title=title, content=content, image_file=filename, user_id=author_id)
         db.session.add(new_blog)
         db.session.commit()
         flash("বলগ সফলভাবে তৈয়াৰ কৰা হৈছে!")
