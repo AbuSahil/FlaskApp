@@ -25,6 +25,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Bio</th>
             <th>Actions</th>
         </tr>
         {% for user in users %}
@@ -32,12 +33,13 @@
             <td>{{ user.id }}</td>
             <td>{{ user.name }}</td>
             <td>{{ user.email }}</td>
-            <td>
-                                
+            <td>{{ user.profile.bio }}</td>
+            <td>                    
                 <button type="button" onclick="location.href='/{{ user.id }}/edit'">Edit</button>
                 <form method="POST" action="{{ url_for('delete', id=user.id) }}" style="display:inline;">
                        
                     <button type="submit" onclick="return confirm('আপুনি কি নিশ্চিত?')">Delete</button>
+             
                 </form>
                 <button type="button" onclick="location.href='/{{ user.id }}/show'">Show</button>
             </td>

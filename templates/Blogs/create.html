@@ -16,14 +16,18 @@
         {% endif %}
     {% endwith %}
     <h1>Create New Blog Post</h1>
-    <form method="POST" action="{{ url_for('create_blog') }}">
+    <form method="POST" action="{{ url_for('create_blog') }}" enctype="multipart/form-data">
         <label for="title">Title:</label><br>
         <input type="text" id="title" name="title" required><br><br>
         <label for="content">Content:</label><br>
         <textarea id="content" name="content" rows="10" cols="50" required></textarea><br><br>
+        <label for="image_file">Image:</label><br>
+        <input type="file" id="image_file" name="image_file" accept="image/*" ><br><br>
+       <br>
         <input type="submit" value="Submit">       
           
     </form>
+    <br>
     <a href="{{ url_for('blogs') }}">Back to Blogs</a>
 </body>
 </html>
