@@ -6,5 +6,5 @@ class MyForm(FlaskForm):
     
     name = StringField("Name of the Candidate", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired(), Email(message="Invalid email address")])
-    bio = TextAreaField("Bio", validators=[DataRequired()])
+    bio = TextAreaField("Bio")
     submit = SubmitField("Submit")

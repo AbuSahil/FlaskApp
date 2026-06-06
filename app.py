@@ -50,18 +50,30 @@ def view():
     users = User.query.all()
     return render_template('view.html', users=users) 
 
-@app.route('/<int:id>/edit', methods=['POST','GET'])      
+
+
+
+@app.route('/<int:id>/edit', methods=['GET', 'POST'])
 def edit(id):
+    print("Method:", request.method)
+
     user = User.query.get(id)
     form = MyForm(obj=user)
+
+    print("Validate:", form.validate_on_submit())
+    print("Errors:", form.errors)
+
     if form.validate_on_submit():
-        
+        print("FORM SUBMITTED")
+
         user.name = form.name.data
         user.email = form.email.data
         db.session.commit()
-        flash("আপোনাৰ তথ্য সফলভাবে সম্পাদনা কৰা হৈছে!")
+
+        flash("Updated successfully!")
         return redirect(url_for('view'))
-    return render_template('edit.html', form=form , user=user)
+
+    return render_template('edit.html', form=form, user=user)
 @app.route('/<int:id>/delete', methods=['POST','GET'])
 def delete(id):
     user = User.query.get(id)
